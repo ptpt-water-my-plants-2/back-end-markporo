@@ -26,7 +26,7 @@ server.get('/', (req, res) => {
     res.status(200).json(
         {
             "status": 200,
-            "message": 'whatever you want your home (/) api route to say',
+            "message": 'Welcome! Lets party with plants!',
             "time": new Date().toLocaleTimeString(),
         });
 })
