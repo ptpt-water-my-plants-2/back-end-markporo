@@ -9,10 +9,19 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "migrate": "knex migrate:latest",
+    "migrateh": "heroku run knex migrate:latest -a water-my-plants-app2",
     "rollback": "knex migrate:rollback",
+    "rollbackh": "heroku run knex migrate:rollback -a water-my-plants-app2",
     "reset": "npm run rollback && npm run migrate && npm run seed",
     "seed": "knex seed:run",
-    "cleanup": "knex seed:run --specific=01-cleanup.js"
+    "seedh": "heroku run knex seed:run -a water-my-plants-app2",
+    "databaseh": "heroku run pg:psql -a water-my-plants-app2",
+    "cleanup": "knex seed:run --specific=01-cleanup.js",
+    "deploy": "git push heroku main"
+  },
+  "engines": {
+    "node": "17.2.0",
+    "npm": "8.1.4"
   },
   "repository": {
     "type": "git",
@@ -31,6 +40,7 @@
     "helmet": "^4.6.0",
     "knex": "^0.95.14",
     "morgan": "^1.10.0",
+    "pg": "^8.7.1",
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
