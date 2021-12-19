@@ -4,6 +4,8 @@ const server = express()
 
 //const { logger } = require("./cars/cars-middleware")
 const usersRouter = require('./users/users-router')
+const authRouter = require('./auth/auth-router')
+const plantsRouter = require('./plants/plants-router')
 
 const helmet = require('helmet')
 const morgan = require('morgan')
@@ -20,6 +22,8 @@ server.use(cors())
 
 //connect Routes
 server.use('/api/users', usersRouter) // 1st param = url route, 2nd param = router name that was required above
+server.use('/api/auth', authRouter) // 1st param = url route, 2nd param = router name that was required above
+server.use('/api/plants', plantsRouter)
 
 //home page
 server.get('/', (req, res) => {

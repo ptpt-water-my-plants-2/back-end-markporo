@@ -1,4 +1,5 @@
 const usersModel = require("../users/users-model")
+const jwt = require('jsonwebtoken')
 
 const validateCredentails = async (req, res, next) => {
     if (!req.body.firstName || !req.body.lastName || !req.body.username || !req.body.password || !req.body.phoneNumber) {
@@ -10,17 +11,49 @@ const validateCredentails = async (req, res, next) => {
     } else {
         req.body.username = req.body.username.trim();
         req.body.password = req.body.password.trim();
+        req.body.phoneNumber = req.body.phoneNumber.trim();
         next()
     }
 }
 
-const restricted = async (req, res, next) => {
-
+const validateCredentailsForLogin = async (req, res, next) => {
+    if (!req.body.username || !req.body.password) {
+        res.status(400).json({ message: "All text fields required" })
+    } else if (req.body.password.length < 4) {
+        res.status(400).json({ message: "Password must be 4 characters or longer" })
+    } else {
+        next()
+    }
 }
 
 
-const validatePhoneNumberAndUsernameInForm = async (req, res, next) => {
-    next()
+function authenticateTokenRestrictedAccess(req, res, next) {
+    // const authHeader = req.headers['authorization']  
+    // const token = authHeader && authHeader.split(' ')[1] // Bearer token --gets token from authorization header
+
+    const token = req.headers.authorization
+
+    if (!token) return res.sendStatus(401).json({ message: "token not found" })
+    jwt.verify(token, process.env.JWT_Secret, (err, decodedToken) => {
+        if (err) return res.sendStatus(403).json({ message: "You do not have access" })
+        req.decodedToken = decodedToken
+        next()
+    })
+}
+
+
+const validatePhoneNumberAndPasswordInForm = async (req, res, next) => {
+    if (!req.body.phoneNumber || !req.body.password) {
+        res.status(400).json({ message: "Phone Number and Password fields are required" })
+    } else if (req.body.password.length < 4) {
+        res.status(400).json({ message: "Password must be 4 characters or longer" })
+    } else if (req.body.phoneNumber.length < 7 || req.body.phoneNumber.length > 11) {
+        res.status(400).json({ message: "Phone Number must contain lenghth of a phone number" })
+    } else {
+        req.body.phoneNumber = req.body.phoneNumber.trim();
+        req.body.password = req.body.password.trim();
+        next()
+    }
 }
 
 const checkUsernameAvailable = async (req, res, next) => {
@@ -43,13 +76,24 @@ const checkUserIdExists = async (req, res, next) => {
         })
 }
 
+const checkUserNameExists = async (req, res, next) => {
+    const [userFound] = await usersModel.getUserByFilter({ username: req.body.username })
+    if (userFound) {
+        next()
+    } else {
+        res.status(404).json({ message: "Username or password does is not correct" })
+    }
+}
+
 
 
 
 module.exports = {
     checkUsernameAvailable,
     validateCredentails,
-    restricted,
-    validatePhoneNumberAndUsernameInForm,
-    checkUserIdExists
+    validatePhoneNumberAndPasswordInForm,
+    checkUserIdExists,
+    validateCredentailsForLogin,
+    checkUserNameExists,
+    authenticateTokenRestrictedAccess
 }

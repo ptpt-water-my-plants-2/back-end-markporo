@@ -32,6 +32,8 @@ module.exports = {
   }
 }
 
+
+//uncomment for sql lite and local development....then comment out code above
 // const sharedConfig = {
 //   client: 'sqlite3',
 //   useNullAsDefault: true,

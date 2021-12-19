@@ -1,9 +1,10 @@
 const router = require('express').Router()
 
 const usersModel = require('./users-model')
-const { validatePhoneNumberAndUsernameInForm, checkUserIdExists } = require('../auth/auth-middleware')
+const plantsModel = require('../plants/plants-model')
+const { validatePhoneNumberAndPasswordInForm, checkUserIdExists } = require('../auth/auth-middleware')
 
-
+// get all users
 router.get("/", (req, res) => {
     usersModel.getAllUsers()
         .then(users => {
@@ -14,7 +15,7 @@ router.get("/", (req, res) => {
         })
 })
 
-
+// get user by their id
 router.get("/:user_id", checkUserIdExists, (req, res) => {
     usersModel.getUserById(req.params.user_id)
         .then(user => {
@@ -26,8 +27,8 @@ router.get("/:user_id", checkUserIdExists, (req, res) => {
 })
 
 
-// update user ---finish this
-router.put("/:user_id", validatePhoneNumberAndUsernameInForm, (req, res) => {
+// update user 
+router.put("/:user_id", validatePhoneNumberAndPasswordInForm, (req, res) => {
     usersModel.updateUserById(req.params.user_id, req.body)
         .then(user => {
             res.status(200).json({ message: "User was successfully updated!" })
@@ -38,6 +39,19 @@ router.put("/:user_id", validatePhoneNumberAndUsernameInForm, (req, res) => {
 })
 
 // get users plants
+router.get("/:user_id/users-plants", checkUserIdExists, (req, res) => {
+    const { user_id } = req.params;
+    plantsModel.getPlantsByUserId(user_id)
+        .then((plants) => {
+            res.status(200).json(plants);
+        })
+        .catch(() => {
+            res.status(500).json({ message: "Users Plants could not be retrieved by the database." })
+        })
+},
+);
+
+
 
 //export the router
 module.exports = router
