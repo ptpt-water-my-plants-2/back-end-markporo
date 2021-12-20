@@ -47,11 +47,21 @@ CREATE NEW PLANT:
 
 -must include "nickname", "species", "h2OFrequency", "owner"...
 
-- all of these are stored as strings in the backend...so make sure these are strings when you send them.  
-  -In contrast, the ids (user_id, plantId) are integers
-  -owner is the user_id of the current user creating the plant so you might get that user_id (owner) by passing it from props. (The user will not fill in their user_id on a form. That will just be in front end code.)  
+- all of these are stored as strings in the backend except for owner...so make sure these are strings and owner is a number when you send them.
+  -the ids which is what the owner is (user_id, plantId) are numbers
   -take note that h2OFrequency is spelled with an uppercase O not a zero 0
 
 UPDATE PLANT BY PLANT ID:
+[PUT] https://water-my-plants-app2.herokuapp.com/api/plants/
+
+-all properties need to be sent to server including plantId and owner. So even if only one thing is being changed frontend code should send a full object...for example the full object will need to look something like:
+{
+"plantId": 5,
+"nickname": "Snake Plant",
+"species": "Dracaena trifasciata",
+"h2OFrequency": "14", // notice the number here is a string (14 days)
+"owner": 5
+}
 
 DELETE PLANT BY PLANT ID:
+[DELETE] https://water-my-plants-app2.herokuapp.com/api/plants/:plantId

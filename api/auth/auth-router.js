@@ -24,7 +24,7 @@ router.post("/register", validateCredentails, checkUsernameAvailable, (req, res)
 
 
 //login
-router.post("/login", checkUserNameExists, async (req, res) => {
+router.post("/login", validateCredentailsForLogin, checkUserNameExists, async (req, res) => {
     const { username, password } = req.body;
     const [user] = await usersModel.getUserByFilter({ username: username });
 

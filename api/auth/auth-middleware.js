@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken')
 
 const validateCredentails = async (req, res, next) => {
     if (!req.body.firstName || !req.body.lastName || !req.body.username || !req.body.password || !req.body.phoneNumber) {
-        res.status(400).json({ message: "All text fields required" })
+        return res.status(400).json({ message: "All text fields required" })
     } else if (req.body.password.length < 4) {
-        res.status(400).json({ message: "Password must be 4 characters or longer" })
+        return res.status(400).json({ message: "Password must be 4 characters or longer" })
     } else if (req.body.phoneNumber.length < 7 || req.body.phoneNumber.length > 11) {
-        res.status(400).json({ message: "Phone Number must contain lenghth of a phone number" })
+        return res.status(400).json({ message: "Phone Number must contain lenghth of a phone number" })
     } else {
         req.body.username = req.body.username.trim();
         req.body.password = req.body.password.trim();
@@ -18,9 +18,9 @@ const validateCredentails = async (req, res, next) => {
 
 const validateCredentailsForLogin = async (req, res, next) => {
     if (!req.body.username || !req.body.password) {
-        res.status(400).json({ message: "All text fields required" })
-    } else if (req.body.password.length > 3) {
-        res.status(400).json({ message: "Password must be 4 characters or longer" })
+        return res.status(400).json({ message: "All text fields required" })
+    } else if (req.body.password.length < 4) {
+        return res.status(400).json({ message: "Password must be 4 characters or longer" })
     } else {
         next()
     }
@@ -44,11 +44,11 @@ function authenticateTokenRestrictedAccess(req, res, next) {
 
 const validatePhoneNumberAndPasswordInForm = async (req, res, next) => {
     if (!req.body.phoneNumber || !req.body.password) {
-        res.status(400).json({ message: "Phone Number and Password fields are required" })
+        return res.status(400).json({ message: "Phone Number and Password fields are required" })
     } else if (req.body.password.length < 4) {
-        res.status(400).json({ message: "Password must be 4 characters or longer" })
+        return res.status(400).json({ message: "Password must be 4 characters or longer" })
     } else if (req.body.phoneNumber.length < 7 || req.body.phoneNumber.length > 11) {
-        res.status(400).json({ message: "Phone Number must contain lenghth of a phone number" })
+        return res.status(400).json({ message: "Phone Number must contain lenghth of a phone number" })
     } else {
         req.body.phoneNumber = req.body.phoneNumber.trim();
         req.body.password = req.body.password.trim();
@@ -60,7 +60,7 @@ const checkUsernameAvailable = async (req, res, next) => {
     const username = req.body.username
     const [userFound] = await usersModel.getUserByFilter({ username: username })
     if (userFound) {
-        res.status(401).json({ message: "That username is already taken." })
+        return res.status(401).json({ message: "That username is already taken." })
     }
     next()
 }
@@ -69,7 +69,7 @@ const checkUserIdExists = async (req, res, next) => {
     usersModel.getUserById(req.params.user_id)
         .then(user => {
             if (user.length === 0) {
-                res.status(404).json({ message: "User with that ID not found." })
+                return res.status(404).json({ message: "User with that ID not found." })
             } else {
                 next()
             }
@@ -81,7 +81,7 @@ const checkUserNameExists = async (req, res, next) => {
     if (userFound) {
         next()
     } else {
-        res.status(404).json({ message: "Username or password does is not correct" })
+        return res.status(404).json({ message: "Username or password does is not correct" })
     }
 }
 

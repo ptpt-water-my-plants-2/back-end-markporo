@@ -30,17 +30,26 @@ const getPlantByPlantId = (plantId) => {
 // create a plant
 async function addPlant(newPlant) {
     const [plantId] = await db('plants').insert(newPlant)
-
     return getPlantByPlantId(plantId)
 }
 
 
-// delete plant by Id
-
-
-
 //  update plant by id
+async function updatePlant(plantId, changes) {
+    const updatedPlant = await db("plants as p").where({ plantId }).update(changes)
+    console.log(updatedPlant)
+
+    return getPlantByPlantId(plantId)
+}
+// delete plant by Id
+const deletePlant = (plantId) => {
+    return db('plants').where({ plantId }).del()
+}
 
 
 
-module.exports = { getPlantsByUserId, getPlantByPlantId, addPlant }
+
+
+
+
+module.exports = { getPlantsByUserId, getPlantByPlantId, addPlant, updatePlant, deletePlant }
