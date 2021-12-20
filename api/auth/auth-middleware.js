@@ -19,7 +19,7 @@ const validateCredentails = async (req, res, next) => {
 const validateCredentailsForLogin = async (req, res, next) => {
     if (!req.body.username || !req.body.password) {
         res.status(400).json({ message: "All text fields required" })
-    } else if (req.body.password.length < 4) {
+    } else if (req.body.password.length > 3) {
         res.status(400).json({ message: "Password must be 4 characters or longer" })
     } else {
         next()

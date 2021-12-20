@@ -20,11 +20,19 @@ const getPlantsByUserId = (user_id) => {
 
 
 //get plant by plant Id
-
+const getPlantByPlantId = (plantId) => {
+    return db("plants as p")
+        .where({ plantId })
+        .first()
+}
 
 
 // create a plant
+async function addPlant(newPlant) {
+    const [plantId] = await db('plants').insert(newPlant)
 
+    return getPlantByPlantId(plantId)
+}
 
 
 // delete plant by Id
@@ -35,4 +43,4 @@ const getPlantsByUserId = (user_id) => {
 
 
 
-module.exports = { getPlantsByUserId }
+module.exports = { getPlantsByUserId, getPlantByPlantId, addPlant }

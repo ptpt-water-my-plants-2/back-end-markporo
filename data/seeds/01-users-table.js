@@ -5,11 +5,11 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
-        { firstName: "Ryan", lastName: "Reynolds", username: "rr", phoneNumber: "8675309", password: "1234" },
-        { firstName: "Dwight", lastName: "Schrute", username: "dwight", phoneNumber: "8675309", password: "1234" },
-        { firstName: "Tony", lastName: "Lu", username: "tlu", phoneNumber: "8675309", password: "1234" },
-        { firstName: "Coolguy", lastName: "Steve", username: "stevedude", phoneNumber: "8675309", password: "1234" },
-        { firstName: "Mark", lastName: "Poro", username: "markporo", phoneNumber: "8675309", password: "1234" },
+        { firstName: "Ryan", lastName: "Reynolds", username: "rr", phoneNumber: "8675309", password: "$2a$08$OKyUI5WO4OIqcoBOj0wIC.MlFrEk4tdIHrf/OGbThHbnUDRzsWgQG" },
+        { firstName: "Dwight", lastName: "Schrute", username: "dwight", phoneNumber: "8675309", password: "$2a$08$OKyUI5WO4OIqcoBOj0wIC.MlFrEk4tdIHrf/OGbThHbnUDRzsWgQG" },
+        { firstName: "Tony", lastName: "Lu", username: "tlu", phoneNumber: "8675309", password: "$2a$08$OKyUI5WO4OIqcoBOj0wIC.MlFrEk4tdIHrf/OGbThHbnUDRzsWgQG" },
+        { firstName: "Coolguy", lastName: "Steve", username: "stevedude", phoneNumber: "8675309", password: "$2a$08$OKyUI5WO4OIqcoBOj0wIC.MlFrEk4tdIHrf/OGbThHbnUDRzsWgQG" },
+        { firstName: "Mark", lastName: "Poro", username: "markporo", phoneNumber: "8675309", password: "$2a$08$OKyUI5WO4OIqcoBOj0wIC.MlFrEk4tdIHrf/OGbThHbnUDRzsWgQG" },
       ]);
     });
 };
