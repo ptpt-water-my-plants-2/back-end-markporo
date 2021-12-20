@@ -29,7 +29,7 @@ const getPlantByPlantId = (plantId) => {
 
 // create a plant
 async function addPlant(newPlant) {
-    const [plantId] = await db('plants').insert(newPlant)
+    const [plantId] = await db('plants').insert(newPlant).returning('plantId')
     return getPlantByPlantId(plantId)
 }
 

@@ -22,7 +22,7 @@ async function addUser(user) {
     //     .then(userResult => {
     //         return getUserById(userResult[0]) // should return new user
     //     })
-    const [user_id] = await db('users').insert(user)
+    const [user_id] = await db('users').insert(user).returning('user_id')
 
     return getUserById(user_id)
 }

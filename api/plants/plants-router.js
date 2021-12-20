@@ -15,7 +15,7 @@ router.get("/:plantId", checkPlantIdExists, (req, res) => {
 
 
 // create a plant
-router.post("/", validatePlantCredentials, (req, res) => {
+router.post("/", validatePlantCredentials, async (req, res) => {
     plantsModel.addPlant(req.body)
         .then(newPlant => {
             res.status(201).json(newPlant)

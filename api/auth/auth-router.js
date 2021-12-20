@@ -7,7 +7,7 @@ const { checkUsernameAvailable, validateCredentails, checkUserNameExists, valida
 
 
 // register
-router.post("/register", validateCredentails, checkUsernameAvailable, (req, res) => {
+router.post("/register", validateCredentails, checkUsernameAvailable, async (req, res) => {
     const credentials = req.body;
     const rounds = process.env.BCRYPT_ROUNDS || 8;
     const hash = bcrypt.hashSync(credentials.password, rounds);
