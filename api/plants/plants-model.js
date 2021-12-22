@@ -5,7 +5,7 @@ const db = require("../db-config")
 //get plants by user Id
 const getPlantsByUserId = (user_id) => {
     return db("plants as p")
-        .select("p.nickname", "p.species", "p.h2OFrequency", "p.howMuchWater", "p.details")
+        .select("p.plantId", "p.nickname", "p.species", "p.h2OFrequency", "p.howMuchWater", "p.details")
         .join("users as u", "p.owner", "=", "u.user_id")
         .where("p.owner", user_id)
         .orderBy("p.plantId", "desc")

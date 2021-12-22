@@ -52,7 +52,7 @@ CREATE NEW PLANT:
   -take note that h2OFrequency is spelled with an uppercase O not a zero 0
 
 UPDATE PLANT BY PLANT ID:
-[PUT] https://water-my-plants-app2.herokuapp.com/api/plants/
+[PUT] https://water-my-plants-app2.herokuapp.com/api/plants/${plantId}
 
 -all properties need to be sent to server including plantId and owner. So even if only one thing is being changed frontend code should send a full object...for example the full object will need to look something like:
 {
