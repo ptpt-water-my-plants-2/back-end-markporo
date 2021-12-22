@@ -2,12 +2,20 @@ const db = require("../db-config")
 
 
 function getAllUsers() {
-    return db('users').orderBy('user_id')
+    return db('users as u')
+        .select("u.user_id", "u.firstName", "u.lastName", "u.username", "u.phoneNumber")
+        .orderBy('user_id')
 }
 
 function getUserById(user_id) {
-    return db('users')
+    return db('users as u')
         .where({ user_id }) //.where('user_id', user_id)
+        //send back everything but the password
+        .select("u.user_id", "u.firstName", "u.lastName", "u.username", "u.phoneNumber")
+
+    // this could be destructured so its not inside of an array
+    // but I am leaving it because I already coded the front end
+    // to get the data out of the array
 
 }
 

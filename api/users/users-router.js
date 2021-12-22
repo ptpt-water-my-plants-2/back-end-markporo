@@ -1,8 +1,8 @@
 const router = require('express').Router()
-
+const bcrypt = require("bcryptjs")
 const usersModel = require('./users-model')
 const plantsModel = require('../plants/plants-model')
-const { validatePhoneNumberAndPasswordInForm, checkUserIdExists } = require('../auth/auth-middleware')
+const { validatePhoneNumberAndPasswordInForm, checkUserIdExists, checkForToken } = require('../auth/auth-middleware')
 
 // get all users
 router.get("/", (req, res) => {
@@ -29,6 +29,13 @@ router.get("/:user_id", checkUserIdExists, (req, res) => {
 
 // update user 
 router.put("/:user_id", validatePhoneNumberAndPasswordInForm, (req, res) => {
+
+    const credentials = req.body;
+    const rounds = process.env.BCRYPT_ROUNDS || 8;
+    const hash = bcrypt.hashSync(credentials.password, rounds);
+    req.body.password = hash;
+
+
     usersModel.updateUserById(req.params.user_id, req.body)
         .then(user => {
             res.status(200).json({ message: "User was successfully updated!" })

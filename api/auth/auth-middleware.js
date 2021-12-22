@@ -27,15 +27,15 @@ const validateCredentailsForLogin = async (req, res, next) => {
 }
 
 
-function authenticateTokenRestrictedAccess(req, res, next) {
-    // const authHeader = req.headers['authorization']  
+function checkForToken(req, res, next) {
+    // const authHeader = req.headers['authorization']
     // const token = authHeader && authHeader.split(' ')[1] // Bearer token --gets token from authorization header
 
     const token = req.headers.authorization
 
-    if (!token) return res.sendStatus(401).json({ message: "token not found" })
+    if (!token) return res.status(401).json({ message: "token not found" })
     jwt.verify(token, process.env.JWT_Secret, (err, decodedToken) => {
-        if (err) return res.sendStatus(403).json({ message: "You do not have access" })
+        if (err) return res.status(403).json({ message: "User must be logged in to do that" })
         req.decodedToken = decodedToken
         next()
     })
@@ -95,5 +95,5 @@ module.exports = {
     checkUserIdExists,
     validateCredentailsForLogin,
     checkUserNameExists,
-    authenticateTokenRestrictedAccess
+    checkForToken
 }

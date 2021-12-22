@@ -3,7 +3,8 @@ const usersModel = require("../users/users-model")
 const bcrypt = require("bcryptjs")
 const generateToken = require("../utils/token-builder")
 
-const { checkUsernameAvailable, validateCredentails, checkUserNameExists, validateCredentailsForLogin } = require('../auth/auth-middleware')
+const { checkUsernameAvailable, validateCredentails, checkUserNameExists, validateCredentailsForLogin } = require('../auth/auth-middleware');
+//const { application } = require("express");
 
 
 // register
@@ -13,7 +14,7 @@ router.post("/register", validateCredentails, checkUsernameAvailable, async (req
     const hash = bcrypt.hashSync(credentials.password, rounds);
     credentials.password = hash;
 
-    usersModel.addUser(req.body)
+    usersModel.addUser(credentials)
         .then(newUser => {
             res.status(201).json(newUser)
         })
@@ -29,7 +30,7 @@ router.post("/login", validateCredentailsForLogin, checkUserNameExists, async (r
     const [user] = await usersModel.getUserByFilter({ username: username });
 
     if (user && !bcrypt.compareSync(password, user.password)) {
-        res.status(401).json({ message: "Incorrect password" });
+        res.status(403).json({ message: "Incorrect password" });
     } else if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({
@@ -43,6 +44,20 @@ router.post("/login", validateCredentailsForLogin, checkUserNameExists, async (r
     }
 },
 );
+
+// application.post("/logout", (req, res) => {
+//     const { userToken } = req.body
+//     if (userToken === token) {
+//         //remove token from db
+
+//     }
+
+//     res.status(200).json({
+//         payload: token
+//     })
+
+
+// })
 
 
 module.exports = router

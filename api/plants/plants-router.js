@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const plantsModel = require("./plants-model")
 const { checkPlantIdExists, validatePlantCredentials } = require("./plant-middleware")
+const { checkForToken } = require("../auth/auth-middleware")
 
 //get plant by plant Id
 router.get("/:plantId", checkPlantIdExists, (req, res) => {
