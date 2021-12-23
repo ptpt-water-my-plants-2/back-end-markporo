@@ -16,7 +16,7 @@ router.get("/:plantId", checkPlantIdExists, (req, res) => {
 
 
 // create a plant
-router.post("/", validatePlantCredentials, async (req, res) => {
+router.post("/", checkForToken, validatePlantCredentials, async (req, res) => {
     plantsModel.addPlant(req.body)
         .then(newPlant => {
             res.status(201).json(newPlant)
@@ -28,7 +28,7 @@ router.post("/", validatePlantCredentials, async (req, res) => {
 
 
 //  update plant by id
-router.put("/:plantId", checkPlantIdExists, validatePlantCredentials, (req, res) => {
+router.put("/:plantId", checkForToken, checkPlantIdExists, validatePlantCredentials, (req, res) => {
     plantsModel.updatePlant(req.params.plantId, req.body)
         .then(updatedPlant => {
             res.status(200).json(updatedPlant)
@@ -40,7 +40,7 @@ router.put("/:plantId", checkPlantIdExists, validatePlantCredentials, (req, res)
 
 
 // delete plant by Id
-router.delete("/:plantId", checkPlantIdExists, (req, res) => {
+router.delete("/:plantId", checkForToken, checkPlantIdExists, (req, res) => {
     plantsModel.deletePlant(req.params.plantId)
         .then(deletedPlant => {
             res.status(200).json({ message: "Plant was successfully deleted! Goodbye dear Plant.  You will be missed." })

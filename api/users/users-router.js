@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
 router.get("/:user_id", checkForToken, checkUserIdExists, (req, res) => {
     usersModel.getUserById(req.params.user_id)
         .then(user => {
+            //console.log(req.headers, "req.headers from get user by id")
             res.status(200).json(user)
         })
         .catch(() => {
