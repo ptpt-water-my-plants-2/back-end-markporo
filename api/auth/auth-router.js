@@ -3,7 +3,7 @@ const usersModel = require("../users/users-model")
 const bcrypt = require("bcryptjs")
 const generateToken = require("../utils/token-builder")
 
-const { checkUsernameAvailable, validateCredentails, checkUserNameExists, validateCredentailsForLogin } = require('../auth/auth-middleware');
+const { checkUsernameAvailable, validateCredentails, checkUserNameExists, validateCredentailsForLogin, checkForToken } = require('../auth/auth-middleware');
 
 
 
@@ -44,6 +44,11 @@ router.post("/login", validateCredentailsForLogin, checkUserNameExists, async (r
     }
 },
 );
+
+// endpoint that checks for token and keeps user logged in after browser closes
+router.post("/", checkForToken, (req, res) => {
+    console.log(req.decodedToken, "decoded Token")
+})
 
 
 module.exports = router
