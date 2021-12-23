@@ -48,6 +48,12 @@ router.post("/login", validateCredentailsForLogin, checkUserNameExists, async (r
 // endpoint that checks for token and keeps user logged in after browser closes
 router.post("/", checkForToken, (req, res) => {
     console.log(req.decodedToken, "decoded Token")
+    if (!req.decodedToken.subject) {
+        res.status(403).json({ message: "No subject id found." })
+    } else {
+        // sends back the found decodedToken user_id
+        res.status(200).json(req.decodedToken.subject)
+    }
 })
 
 
