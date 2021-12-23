@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 })
 
 // get user by their id
-router.get("/:user_id", checkUserIdExists, (req, res) => {
+router.get("/:user_id", checkForToken, checkUserIdExists, (req, res) => {
     usersModel.getUserById(req.params.user_id)
         .then(user => {
             res.status(200).json(user)
@@ -28,7 +28,7 @@ router.get("/:user_id", checkUserIdExists, (req, res) => {
 
 
 // update user 
-router.put("/:user_id", validatePhoneNumberAndPasswordInForm, (req, res) => {
+router.put("/:user_id", checkForToken, validatePhoneNumberAndPasswordInForm, (req, res) => {
 
     const credentials = req.body;
     const rounds = process.env.BCRYPT_ROUNDS || 8;
@@ -46,7 +46,7 @@ router.put("/:user_id", validatePhoneNumberAndPasswordInForm, (req, res) => {
 })
 
 // get users plants
-router.get("/:user_id/users-plants", checkUserIdExists, (req, res) => {
+router.get("/:user_id/users-plants", checkForToken, checkUserIdExists, (req, res) => {
     const { user_id } = req.params;
     plantsModel.getPlantsByUserId(user_id)
         .then((plants) => {
