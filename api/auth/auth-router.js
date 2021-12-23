@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs")
 const generateToken = require("../utils/token-builder")
 
 const { checkUsernameAvailable, validateCredentails, checkUserNameExists, validateCredentailsForLogin } = require('../auth/auth-middleware');
-//const { application } = require("express");
+
 
 
 // register
@@ -44,20 +44,6 @@ router.post("/login", validateCredentailsForLogin, checkUserNameExists, async (r
     }
 },
 );
-
-// application.post("/logout", (req, res) => {
-//     const { userToken } = req.body
-//     if (userToken === token) {
-//         //remove token from db
-
-//     }
-
-//     res.status(200).json({
-//         payload: token
-//     })
-
-
-// })
 
 
 module.exports = router
