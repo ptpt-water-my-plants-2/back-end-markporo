@@ -1,6 +1,6 @@
 # back-end-markporo
 
-Back end Mark Poro
+Mark Poro's Backend for Water My Plants App.  An app that helps users upload their plant information so that they can keep track of what plants need watered and when.  
 
 ---
 
